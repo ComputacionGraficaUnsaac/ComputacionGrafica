@@ -137,7 +137,7 @@ def Alphabet(txt,x,y,r,g,b):
 		[1,0,0,0,1],
 		[1,0,0,0,1],
 		[0,1,0,1,0],
-		[0,0,1,1,0]]
+		[0,0,1,0,0]]
 	W = [
 		[1,0,0,0,1],
 		[1,0,0,0,1],
@@ -195,7 +195,8 @@ def Pixel_Word(Matrix,x,y,r,g,b):
 	for i in range(5):
 		for j in range(5):
 			if Matrix[i][j] == 1:
-				Pixel(y-j,x-i,r,g,b,4)
+				Pixel(y+j-4,x-i,r,g,b,4)
+				glFlush()
 # Drawing mario by default
 def Mario(x,y,size):
 	#define colors
@@ -240,7 +241,7 @@ def Mario(x,y,size):
 				Pixel(y-j,x-i,0.5,0,0,size)
 			elif Matrix[i][j] == 6:
 				Pixel(y-j,x-i,1,127/255,80/255,size) 
-# Pixel drawing by color
+# Drawing a pixel by color at pygame's windows
 def Pixel(x,y,r,g,b,size):
 	# Draw a pixel in the pygame's windows
 	glColor3f(r, g, b)
@@ -264,6 +265,7 @@ def Spot(x,y,size):
 	# drawing the spots
 	for i in word:
 		y = Draw_Spot(x,y,size)
+	return word
 # Genering the words for the game in the array
 def Words():
 	# split words by category and adding in a single array
@@ -271,23 +273,28 @@ def Words():
 	fruits = ["pera", "manzana", "frutilla", "naranja", "ciruela","mango",
 	"mandarina","coco","platano","sandia"]
 	words.append(fruits)
-	countries = ["Alemania","Australia","Peru","Argentina","Chile",
-	"China","Japon","Colombia","Finlandia","Madagascar"]
+	countries = ["alemania","australia","peru","argentina","chile",
+	"china","japon","colombia","finlandia","hungria"]
 	words.append(countries)
 	colors = ["rojo", "azul", "ambar", "amarillo", "crema",
 	"lacre","cobre","zafiro","oliva","menta"]
 	words.append(colors)
-	sports = ["fútbol" , "voley" , "basquet" , "box" , "tenis",
-	"golf" , "natación" , "atletismo", "ciclismo", "surf" ]
+	sports = ["futbol" , "voley" , "basquet" , "box" , "tenis",
+	"golf" , "natacion" , "atletismo", "ciclismo", "surf" ]
 	words.append(sports)
 	clothes = ["blusa","chaqueta","falda","vestido","gorra",
-	"short","pantalon","sombrero","zapatillas","traje"]
+	"short","pantalon","sombrero","zapatilla","traje"]
 	words.append(clothes)
 	#choose a random word
 	idx = random.randint(0,4)
 	rdm = random.randint(0,len(words[idx])-1)
 	return words[idx][rdm]
-
+# Check if character is in the word
+def Validate(key,word,r,g,b,x,y):
+	key = key.lower()
+	for i in range(len(word)):
+		if word[i] == key:		
+			Alphabet(key,x,y+6*i,r,g,b)
 # Start our world
 def display_openGL(width, height, scale):
 	#display the game's windows
@@ -302,23 +309,20 @@ def main():
 	scale = 8
 	width, height = scale * 80, scale * 80
 	pygame.init()
-	pygame.display.set_caption('C.G. I')
+	pygame.display.set_caption('Hangman')
 	display_openGL(width, height, scale)
-	# our game star here
+	# our game start here
 	# calling the first picture
 	picture = Mario(5,5,scale)
 	#spot after drawing mario
 	M_x, M_y = -20 , -20
-	#draw spots
-	Spot(M_x, M_y,scale)
-	#drawing the spot for the words
+	#draw spots for each character
+	word = Spot(M_x, M_y,scale)
+	print(word)
 	#genering a random color for the words
 	r = random.random()
 	g = random.random()
 	b = random.random()
-	#
-	Alphabet("m",-16,-20,r,g,b)
-	
 	glFlush()
 	pygame.display.flip()
 	#creating events to display
@@ -329,32 +333,32 @@ def main():
 			elif event.type == pygame.MOUSEBUTTONDOWN:# choose a character to start the game
 				print(event)
 			elif event.type == pygame.KEYDOWN:# define what happend when we press the keys
-				if event.key == pygame.K_a:print("A")
-				elif event.key == pygame.K_b:print("B")
-				elif event.key == pygame.K_c:print("C")
-				elif event.key == pygame.K_d:print("D")
-				elif event.key == pygame.K_e:print("E")
-				elif event.key == pygame.K_f:print("F")
-				elif event.key == pygame.K_g:print("G")
-				elif event.key == pygame.K_h:print("H")
-				elif event.key == pygame.K_i:print("I")
-				elif event.key == pygame.K_j:print("J")
-				elif event.key == pygame.K_k:print("K")
-				elif event.key == pygame.K_l:print("L")
-				elif event.key == pygame.K_m:print("C")
-				elif event.key == pygame.K_n:print("C")
-				elif event.key == pygame.K_o:print("C")
-				elif event.key == pygame.K_p:print("C")
-				elif event.key == pygame.K_q:print("C")
-				elif event.key == pygame.K_r:print("C")
-				elif event.key == pygame.K_s:print("C")
-				elif event.key == pygame.K_t:print("C")
-				elif event.key == pygame.K_u:print("C")
-				elif event.key == pygame.K_v:print("C")
-				elif event.key == pygame.K_w:print("C")
-				elif event.key == pygame.K_x:print("C")
-				elif event.key == pygame.K_y:print("C")
-				elif event.key == pygame.K_z:print("C")
+				if event.key == pygame.K_a:Validate("A",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_b:Validate("B",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_c:Validate("C",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_d:Validate("D",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_e:Validate("E",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_f:Validate("F",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_g:Validate("G",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_h:Validate("H",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_i:Validate("I",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_j:Validate("J",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_k:Validate("K",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_l:Validate("L",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_m:Validate("M",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_n:Validate("N",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_o:Validate("O",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_p:Validate("P",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_q:Validate("Q",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_r:Validate("R",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_s:Validate("S",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_t:Validate("T",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_u:Validate("U",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_v:Validate("V",word,r,g,b,-16,-20) 
+				elif event.key == pygame.K_w:Validate("W",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_x:Validate("Y",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_y:Validate("X",word,r,g,b,-16,-20)
+				elif event.key == pygame.K_z:Validate("Z",word,r,g,b,-16,-20)
 				else:print("Wrong key, try again")
 # Calling main menu
 if __name__ == '__main__':
