@@ -3,6 +3,192 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import random
+# Desing the alphabet pixel by pixel
+def Alphabet(txt,x,y,r,g,b):
+	A = [
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0]]
+	B = [
+		[1,1,1,1,0],
+		[0,1,0,1,0],
+		[0,1,1,1,0],
+		[0,1,0,1,0],
+		[1,1,1,1,0]]
+	C = [
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0],
+		[1,1,1,1,0]]
+	D = [
+		[1,1,1,1,0],
+		[0,1,0,1,0],
+		[0,1,0,1,0],
+		[0,1,0,1,0],
+		[1,1,1,1,0]]
+	E = [
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,1,1,1,0]]
+	F = [
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0]]
+	G = [
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,0,1,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0]]
+	H = [
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0]]
+	I = [
+		[1,1,1,1,1],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[1,1,1,1,1]]
+	J = [
+		[0,1,1,1,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[1,0,1,0,0],
+		[1,1,1,0,0]]
+	K = [
+		[1,0,0,1,0],
+		[1,0,1,0,0],
+		[1,1,0,0,0],
+		[1,0,1,0,0],
+		[1,0,0,1,0]]
+	L = [
+		[1,0,0,0,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0],
+		[1,1,1,0,0]]
+	M = [
+		[1,0,0,0,1],
+		[1,1,0,1,1],
+		[1,0,1,0,1],
+		[1,0,0,0,1],
+		[1,0,0,0,1]]
+	N = [
+		[1,0,0,0,1],
+		[1,1,0,0,1],
+		[1,0,1,0,1],
+		[1,0,0,1,1],
+		[1,0,0,0,1]]
+	O = [
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0]]
+	P = [
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,0,0,0,0]]
+	Q = [
+		[0,1,1,0,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[0,1,1,1,1]]
+	R = [
+		[1,1,1,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0],
+		[1,0,1,0,0],
+		[1,0,0,1,0]]
+	S = [
+		[1,1,1,1,0],
+		[1,0,0,0,0],
+		[1,1,1,1,0],
+		[0,0,0,1,0],
+		[1,1,1,1,0]]
+	T = [
+		[1,1,1,1,1],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0]]
+	U = [
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,0,0,1,0],
+		[1,1,1,1,0]]
+	V = [
+		[1,0,0,0,1],
+		[1,0,0,0,1],
+		[1,0,0,0,1],
+		[0,1,0,1,0],
+		[0,0,1,1,0]]
+	W = [
+		[1,0,0,0,1],
+		[1,0,0,0,1],
+		[1,0,1,0,1],
+		[1,1,0,1,1],
+		[1,0,0,0,1]]
+	X = [
+		[1,0,0,0,1],
+		[0,1,0,1,0],
+		[0,0,1,0,0],
+		[0,1,0,1,0],
+		[1,0,0,0,1]]
+	Y = [
+		[1,0,0,0,1],
+		[0,1,0,1,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0]]
+	Z = [
+		[1,1,1,1,0],
+		[0,0,0,1,0],
+		[0,0,1,0,0],
+		[0,1,0,0,0],
+		[1,1,1,1,0]]
+	if txt == 'a': Pixel_Word(A,x,y,r,g,b)
+	if txt == 'b': Pixel_Word(B,x,y,r,g,b)
+	if txt == 'c': Pixel_Word(C,x,y,r,g,b)
+	if txt == 'd': Pixel_Word(D,x,y,r,g,b)
+	if txt == 'e': Pixel_Word(E,x,y,r,g,b)
+	if txt == 'f': Pixel_Word(F,x,y,r,g,b)
+	if txt == 'g': Pixel_Word(G,x,y,r,g,b)
+	if txt == 'h': Pixel_Word(H,x,y,r,g,b)
+	if txt == 'i': Pixel_Word(I,x,y,r,g,b)
+	if txt == 'j': Pixel_Word(J,x,y,r,g,b)
+	if txt == 'k': Pixel_Word(K,x,y,r,g,b)
+	if txt == 'l': Pixel_Word(L,x,y,r,g,b)
+	if txt == 'm': Pixel_Word(M,x,y,r,g,b)
+	if txt == 'n': Pixel_Word(N,x,y,r,g,b)
+	if txt == 'o': Pixel_Word(O,x,y,r,g,b)
+	if txt == 'p': Pixel_Word(P,x,y,r,g,b)
+	if txt == 'q': Pixel_Word(Q,x,y,r,g,b)
+	if txt == 'r': Pixel_Word(R,x,y,r,g,b)
+	if txt == 's': Pixel_Word(S,x,y,r,g,b)
+	if txt == 't': Pixel_Word(T,x,y,r,g,b)
+	if txt == 'u': Pixel_Word(U,x,y,r,g,b)
+	if txt == 'v': Pixel_Word(V,x,y,r,g,b)
+	if txt == 'w': Pixel_Word(W,x,y,r,g,b)
+	if txt == 'x': Pixel_Word(X,x,y,r,g,b)
+	if txt == 'y': Pixel_Word(Y,x,y,r,g,b)
+	if txt == 'z': Pixel_Word(Z,x,y,r,g,b)
+#drawing a single word
+def Pixel_Word(Matrix,x,y,r,g,b):
 #Drawing mario by default
 def Mario(x,y,size):
 	#define colors
@@ -71,6 +257,14 @@ def Spot(x,y,size):
 def Words():
 	fruits = ["pera", "manzana", "frutilla", "naranja", "ciruela","mango",
 	"mandarina","coco","platano","sandia"]
+	countries = ["Alemania","Australia","Peru","Argentina","Chile",
+	"China","Japon","Colombia","Finlandia","Madagascar"]
+	colors = ["rojo", "azul", "ambar", "amarillo", "crema",
+	"lacre","cobre","zafiro","oliva","menta"]
+	sports = ["fútbol" , "voley" , "basquet" , "box" , "tenis",
+	"golf" , "natación" , "atletismo", "ciclismo", "surf" ]
+	clothes = ["blusa","chaqueta","falda","vestido","gorra",
+	"short","pantalon","sombrero","zapatillas","traje"]
 	rdm = random.randint(0,len(fruits)-1)
 	return fruits[rdm]
 
@@ -90,7 +284,7 @@ def main():
 	display_openGL(width, height, scale)
 	# our game star here
 	# calling the first picture
-	picture = Mario(0,0,scale)
+	picture = Mario(5,5,scale)
 	#spot after drawing mario
 	M_x, M_y = -20 , -10
 	#draw spots
