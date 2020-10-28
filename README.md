@@ -20,8 +20,10 @@
 - **Luycho Ancaifuro Mariela** - _GitHub Account_ - [MLuAnc](https://github.com/MLuAnc)
 ---
 ## Explicacion general del proyecto
+- Descripcion General: [General](https://docs.google.com/presentation/d/1BDmMETdsXC0F_N72JcafNJRloEDCTDlGMFxqvqT17vI/edit#slide=id.g13c4792b0e_0_244)
 ## Explicacion para el usuario
+- Descripcion del juego: [USUARIO](https://docs.google.com/presentation/d/1FUFwNOI4JWKDQcejyuwbLiwsQ-MdjJSodxwbtjHexGc/edit#slide=id.gc6f59039d_0_0)
 ## Herramientas
-- se utilizó el lenguage python junto con Pygame que es un conjunto de módulos del lenguaje Python que permiten la creación de videojuegos. 
-
+- se utilizó el lenguage python junto con Pygame que es un conjunto de módulos del lenguaje Python que permiten la creación de videojuegos.
+ 
 ```
