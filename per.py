@@ -250,19 +250,19 @@ def P33():
 	print("Finish...")
 	glFlush()
 
-def main(p,f):
+def mains(p,f):
 	#p:es el numero de palabra ya sea palabra 1 2 3
 	#f:es el numero de fallos
-	scale = 3
-	width, height = scale * 200, scale * 200
-	pygame.init()
-	pygame.display.set_caption('AHOGADO')
-	display_openGL(width, height, scale)
-	pygame.display.flip()
-	if p=1:
-		if f=0:
+	# scale = 3
+	# width, height = scale * 200, scale * 200
+	# pygame.init()
+	# pygame.display.set_caption('AHOGADO')
+	# display_openGL(width, height, scale)
+	# pygame.display.flip()
+	if p==1:
+		if f==0:
 			P1()
-		if f=1:
+		if f==1:
 			P11()
 		if f=2:
 			P12()
@@ -286,10 +286,6 @@ def main(p,f):
 			P32()
 		if f=3:
 			P33()
-	while True:
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				return
-
-if __name__ == '__main__':
-	main()
+	# while True:
+	# 	for event in pygame.event.get():
+	# 		if event.type == QUIT:

@@ -3,6 +3,85 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 import random
+import math
+import numpy as np
+from per import *
+import time
+# Clean the canvas
+def Canvas_Empty():
+	glClearColor(0.7,0.7,0.7,1.0) #backgraund color, silver
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+	glFlush()
+# Clear part of the canvas
+def Canvas_Box(x,y,r,g,b):
+	for i in range(5):
+		for j in range(5):
+			Pixel(y+j-4,x-i,r,g,b,6)
+			glFlush()
+# Traslate a Pixel
+def Traslate(point, tx, ty):
+	T = [[1, 0, tx], 
+		[0, 1, ty], 
+		[0, 0, 1]]
+	solve = np.dot(T,point)
+	return solve
+# Filled in Mario
+def Filled_Mario(matrix,percent,i,x,y,r,g,b):
+	m , n = percent,13
+	r,g,b = 0,1,1
+	# Drawing pixel by pixel
+	for i in range(i,m):
+		for j in range(n):
+			if matrix[i][j] != 0:
+				Pixel(y-j,x-i,r,g,b,8)
+				glFlush()
+	percent += 1
+	return percent
+#  Show number of attempts
+def Attempt(number,x,y,r,g,b):
+	N1 = [
+		[0,0,1,0,0],
+		[0,1,1,0,0],
+		[0,0,1,0,0],
+		[0,0,1,0,0],
+		[0,1,1,1,0]]
+	N2 = [
+		[0,1,1,1,0],
+		[0,0,0,1,0],
+		[0,1,1,1,0],
+		[0,1,0,0,0],
+		[0,1,1,1,0]]
+	N3 = [
+		[0,1,1,1,0],
+		[0,0,0,1,0],
+		[0,1,1,1,0],
+		[0,0,0,1,0],
+		[0,1,1,1,0]]
+	N4 = [
+		[0,1,0,1,0],
+		[0,1,0,1,0],
+		[0,1,1,1,0],
+		[0,0,0,1,0],
+		[0,0,0,1,0]]
+	N5 = [
+		[0,1,1,1,0],
+		[0,1,0,0,0],
+		[0,1,1,1,0],
+		[0,0,0,1,0],
+		[0,1,1,1,0]]
+	if number == 1: Pixel_Number(N1,x,y,r,g,b)
+	elif number == 2: Pixel_Number(N2,x,y,r,g,b)
+	elif number == 3: Pixel_Number(N3,x,y,r,g,b)
+	elif number == 4: Pixel_Number(N4,x,y,r,g,b)
+	elif number == 5: Pixel_Number(N5,x,y,r,g,b)
+# Drawing the number
+def Pixel_Number(Matrix,x,y,r,g,b):
+	Canvas_Box(20,20,0.7,0.7,0.7)
+	for i in range(5):
+		for j in range(5):
+			if Matrix[i][j] == 1:
+				Pixel(y+j-4,x-i,r,g,b,6)
+				glFlush()
 # Desing the alphabet pixel by pixel
 def Alphabet(txt,x,y,r,g,b):
 	#creating the matrix of all words
@@ -77,7 +156,7 @@ def Alphabet(txt,x,y,r,g,b):
 		[1,0,0,0,0],
 		[1,0,0,0,0],
 		[1,0,0,0,0],
-		[1,1,1,0,0]]
+		[1,1,1,1,0]]
 	M = [
 		[1,0,0,0,1],
 		[1,1,0,1,1],
@@ -195,7 +274,7 @@ def Pixel_Word(Matrix,x,y,r,g,b):
 	for i in range(5):
 		for j in range(5):
 			if Matrix[i][j] == 1:
-				Pixel(y+j-4,x-i,r,g,b,4)
+				Pixel(y+j-4,x-i,r,g,b,6)
 				glFlush()
 # Drawing mario by default
 def Mario(x,y,size):
@@ -241,6 +320,7 @@ def Mario(x,y,size):
 				Pixel(y-j,x-i,0.5,0,0,size)
 			elif Matrix[i][j] == 6:
 				Pixel(y-j,x-i,1,127/255,80/255,size) 
+	return Matrix
 # Drawing a pixel by color at pygame's windows
 def Pixel(x,y,r,g,b,size):
 	# Draw a pixel in the pygame's windows
@@ -289,12 +369,59 @@ def Words():
 	idx = random.randint(0,4)
 	rdm = random.randint(0,len(words[idx])-1)
 	return words[idx][rdm]
+# Show the Lose message
+def Message(txt,r,g,b):
+	Canvas_Empty()
+	for i in range(len(txt)):
+		Alphabet(txt[i].lower(),0,-16+6*i,r,g,b)
+	glFlush()
 # Check if character is in the word
-def Validate(key,word,r,g,b,x,y):
+def Again(x,y):
+	Canvas_Empty()
+	ans = Traslate([x,y,1],20,25)
+	matrix = Mario(ans[1],ans[0],8)
+	M_x, M_y = -20 , -20
+	word = Spot(M_x, M_y,8)
+	print(word)
+	Attempts = 4
+	r = random.random()
+	g = random.random()
+	b = random.random()					
+	Attempt(Attempts,20,20,r,g,b)
+	picture = "Mario"
+	price = 0
+	glFlush()
+def Validate(edges,key,word,r,g,b,x,y,attempts,matrix,picture,price):
 	key = key.lower()
-	for i in range(len(word)):
-		if word[i] == key:		
-			Alphabet(key,x,y+6*i,r,g,b)
+	if price == len(word):
+		Message("YOU WIN",r,g,b)
+		return attempts,edges,price
+	elif key in word:
+		for i in range(len(word)):
+			if word[i] == key:
+				price += 1		
+				Alphabet(key,x,y+6*i,r,g,b)
+		return attempts,edges,price
+	elif attempts > 1:
+		Attempt(attempts-1,20,20,r,g,b)
+		if picture == "Mario":
+			#validate Mario
+			edges = Filled_Mario(matrix,edges,edges-4,x+21,y+8,r,g,b)
+			edges += 3
+		else:
+			#validate Amog
+			None
+		return attempts - 1,edges,price
+	else:
+		if picture == "Mario":
+			edges = Filled_Mario(matrix,edges,edges-4,x+21,y+8,r,g,b)
+		Message("YOU LOSE",r,g,b)
+		time.sleep(0.10)
+		Again(x,y)
+		edges = 0
+		price = 0
+		attempts = 4
+		return attempts,edges,price
 # Start our world
 def display_openGL(width, height, scale):
 	#display the game's windows
@@ -305,24 +432,27 @@ def display_openGL(width, height, scale):
 	gluOrtho2D(-30, 30, -30 ,30)
 # Main, define the start point
 def main():
-	# inicial conditions
+	# inicial conditions 
 	scale = 8
-	width, height = scale * 80, scale * 80
+	width, height = 640, 640
 	pygame.init()
 	pygame.display.set_caption('Hangman')
 	display_openGL(width, height, scale)
 	# our game start here
 	# calling the first picture
-	picture = Mario(5,5,scale)
+	matrix = Mario(5,-12,scale)
+	P1()
 	#spot after drawing mario
 	M_x, M_y = -20 , -20
 	#draw spots for each character
-	word = Spot(M_x, M_y,scale)
-	print(word)
+	word = "" 
 	#genering a random color for the words
 	r = random.random()
 	g = random.random()
 	b = random.random()
+	# Number of attempts
+	Attempts = 4
+	edges = math.ceil(16/4)
 	glFlush()
 	pygame.display.flip()
 	#creating events to display
@@ -331,34 +461,49 @@ def main():
 			if event.type == QUIT:
 				return
 			elif event.type == pygame.MOUSEBUTTONDOWN:# choose a character to start the game
-				print(event)
+				pos = pygame.mouse.get_pos()
+				print(pos)
+				if pos[0] > 61 and pos[0] < 198 and pos[1] < 426 and pos[1] > 261:
+					# Choose a Mario
+					ans = Traslate([0,0,1],-12,5)
+					Canvas_Empty()
+					matrix = Mario(ans[1],ans[0],scale)
+					M_x, M_y = -20 , -20
+					word = Spot(M_x, M_y,scale)
+					print(word)					
+					Attempt(Attempts,20,20,r,g,b)
+					picture = "Mario"
+					price = 0
+				elif pos[0] > 404 and pos[0] < 535 and pos[1] > 430 and pos[1] < 264:
+					# Choose a Amog
+					None
 			elif event.type == pygame.KEYDOWN:# define what happend when we press the keys
-				if event.key == pygame.K_a:Validate("A",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_b:Validate("B",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_c:Validate("C",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_d:Validate("D",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_e:Validate("E",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_f:Validate("F",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_g:Validate("G",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_h:Validate("H",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_i:Validate("I",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_j:Validate("J",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_k:Validate("K",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_l:Validate("L",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_m:Validate("M",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_n:Validate("N",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_o:Validate("O",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_p:Validate("P",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_q:Validate("Q",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_r:Validate("R",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_s:Validate("S",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_t:Validate("T",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_u:Validate("U",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_v:Validate("V",word,r,g,b,-16,-20) 
-				elif event.key == pygame.K_w:Validate("W",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_x:Validate("Y",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_y:Validate("X",word,r,g,b,-16,-20)
-				elif event.key == pygame.K_z:Validate("Z",word,r,g,b,-16,-20)
+				if event.key == pygame.K_a:Attempts,edges,price  = Validate(edges,"A",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_b:Attempts,edges,price = Validate(edges,"B",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_c:Attempts,edges,price = Validate(edges,"C",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_d:Attempts,edges,price = Validate(edges,"D",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_e:Attempts,edges,price = Validate(edges,"E",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_f:Attempts,edges,price = Validate(edges,"F",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_g:Attempts,edges,price = Validate(edges,"G",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_h:Attempts,edges,price = Validate(edges,"H",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_i:Attempts,edges,price = Validate(edges,"I",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_j:Attempts,edges,price = Validate(edges,"J",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_k:Attempts,edges,price = Validate(edges,"K",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_l:Attempts,edges,price = Validate(edges,"L",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_m:Attempts,edges,price = Validate(edges,"M",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_n:Attempts,edges,price = Validate(edges,"N",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_o:Attempts,edges,price = Validate(edges,"O",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_p:Attempts,edges,price = Validate(edges,"P",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_q:Attempts,edges,price = Validate(edges,"Q",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_r:Attempts,edges,price = Validate(edges,"R",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_s:Attempts,edges,price = Validate(edges,"S",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_t:Attempts,edges,price = Validate(edges,"T",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_u:Attempts,edges,price = Validate(edges,"U",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_v:Attempts,edges,price = Validate(edges,"V",word,r,g,b,-16,-20,Attempts,matrix,picture,price) 
+				elif event.key == pygame.K_w:Attempts,edges,price = Validate(edges,"W",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_x:Attempts,edges,price = Validate(edges,"Y",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_y:Attempts,edges,price = Validate(edges,"X",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
+				elif event.key == pygame.K_z:Attempts,edges,price = Validate(edges,"Z",word,r,g,b,-16,-20,Attempts,matrix,picture,price)
 				else:print("Wrong key, try again")
 # Calling main menu
 if __name__ == '__main__':
