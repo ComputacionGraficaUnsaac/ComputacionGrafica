@@ -20,7 +20,7 @@
 - **Luycho Ancaifuro Mariela** - _GitHub Account_ - [MLuAnc](https://github.com/MLuAnc)
 ---
 ## Explicacion general del proyecto
-- Descripcion General: [General](https://docs.google.com/presentation/d/1BDmMETdsXC0F_N72JcafNJRloEDCTDlGMFxqvqT17vI/edit#slide=id.g13c4792b0e_0_244)
+- Descripcion General: [GENERAL](https://docs.google.com/presentation/d/1BDmMETdsXC0F_N72JcafNJRloEDCTDlGMFxqvqT17vI/edit#slide=id.g13c4792b0e_0_244)
 ## Explicacion para el usuario
 - Descripcion del juego: [USUARIO](https://docs.google.com/presentation/d/1FUFwNOI4JWKDQcejyuwbLiwsQ-MdjJSodxwbtjHexGc/edit#slide=id.gc6f59039d_0_0)
 ## Herramientas
