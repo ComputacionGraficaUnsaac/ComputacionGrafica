@@ -1,2 +1,19 @@
 7 Oct. idea de juego
+
 14 Oct. un poco de codigo, todos contribuyeron en Github, falta documentacion
+
+23 Oct. nada
+
+28 Oct.
+documentado con graficos
+diario de dificultades/proceso mostrado
+c/u trabajó pero unir parece q dio dificultades
+problemas de cordinación de grupo, no definieron la escala
+regularmente jugable 
+no esta publicable
+
+30 Oct
+en el Readme dice Ahogados.py pero no existe en los archivos
+falta el video, a pesar de que tienen sus screenshots (bien)
+hay codigo de una tortuga que no se vio en su presentación. Tambien de una mochila que jamas vimos.
+
