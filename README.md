@@ -1,4 +1,4 @@
-
+![Ahogado](https://user-images.githubusercontent.com/72477028/97769224-0a7adb00-1af7-11eb-8eb6-b63375c489c1.gif)
 # **<center>Computacion Grafica </center>**
 ### Datos Academicos 
 
