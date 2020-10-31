@@ -1,3 +1,5 @@
+### AHOGADO
+-Cada ves que se presiona una tecla que no pertenece a la palabra a adivinar entonces el personaje se va llenando de agua,se gana cuando se adivina la palabra antes de que tus vidas se terminen.
 ![Ahogado](https://user-images.githubusercontent.com/72477028/97769224-0a7adb00-1af7-11eb-8eb6-b63375c489c1.gif)
 # **<center>Computacion Grafica </center>**
 ### Datos Academicos 
